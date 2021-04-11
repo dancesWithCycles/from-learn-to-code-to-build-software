@@ -64,10 +64,6 @@ if -> if: jobs_to_json()
 if --> Emma: <jobs>
 end group
 
-group "Add job"
-
-end group
-
 @enduml
 
 @startuml Job Manager Sequence diagram - Add job
@@ -93,4 +89,52 @@ ds --> if: <ok>
 if --> Tom: <ok>
 end group
 
+@enduml
+
+@startuml Sequence Diagram - User Interaction
+
+hide footbox
+
+actor Emma
+actor Tom
+
+box "UI"
+participant "Job Viewer" as jv
+end box
+
+box "Job Manager"
+participant "JobInterface" as if
+participant "JobDataStorage" as ds
+database SQLite as data
+end box
+
+group "Get all jobs"
+
+Emma -> jv : GET /jobs
+jv -> if: GET /jobs
+if -> ds: all()
+ds -> data: SELECT * FROM jobs;
+data --> ds: <data>
+ds --> if: List<Job>
+if -> if: jobs_to_json()
+if --> jv: <jobs>
+jv -> jv: jobs_to_table()
+jv --> Emma
+end group
+
+group "Create jobs"
+Tom -> jv: GET /jobs/create
+jv --> Tom: <page>
+Tom -> Tom: <fill form>
+Tom -> jv: Send Form
+jv -> if: POST /jobs {<job details>}
+if -> if: job = json_to_job()
+if -> ds: add(job)
+ds -> data: INSERT INTO jobs (<job data>)
+data --> ds: <ok>
+ds --> if: <ok>
+if --> jv: <ok>
+jv --> Tom: <ok>
+
+end group
 @enduml

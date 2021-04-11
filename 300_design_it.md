@@ -99,3 +99,21 @@ When a `POST /jobs` request is received by the `JobInterface`. The `JobInterface
 ![Add job](out/310_design_it_components/Job%20Manager%20Sequence%20diagram%20-%20Add%20job.png)
 
 ### User Interface
+
+Of course `Emma` and `Tom` will not access the `JobManager` directly but through a user interface. In the beginning, we defined the two components `Job Viewer` and `Job Creator` that are repoonsible for presenting the list of available jobs and providing a possiblity to add a new job to the database.
+There are many possiblities of a user interface. It could be a mobile application, a webpage, a desktop or a command line application. Since we have split the application directly in the beginning roughly in front- (`Job Viewer` and `Job Creator`) and backend (`JobManager`), it will be straight forward to add additional visual representations later. For the first iteration, a webpage seems to be easiest.
+The structure of the website can be kept simple as well:
+
+Path | Description
+ --- | ---
+ /   | Welcome page
+ /jobs | List all available jobs
+ /jobs/create | Create a new job
+
+We do not care about how the website looks in the first iteration. Design (at if you are not a doing it very often) is a very time consuming task. To make it right a lot of user interaction testing will be required. Therefore, we will keep it simple and just make it functional.
+
+### Put it all together
+
+Below is the summary of the complete interaction from a User to the database and back. The goal is not to describe every detail. Otherwise we would replicate the code. It just shall support the development so that we do not get lost in details in code and have a frame to fill.
+
+![Overview](out/310_design_it_components/Sequence%20Diagram%20-%20User%20Interaction.png)
